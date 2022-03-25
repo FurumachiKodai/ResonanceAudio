@@ -9,8 +9,7 @@ const ctx = canvas.getContext('2d');
 
 // audioContext変数に、AudioContextインスタンスを生成
 let audioContext = new AudioContext();
-// Create a (first-order Ambisonic) Resonance Audio scene and pass it
-// the AudioContext.      
+// （一次アンビソニック）レゾナンスオーディオシーンを作成し、それを渡します
 let resonanceAudioScene = new ResonanceAudio(audioContext);
 // resonanceAudioSceneを最終的な出力先につなげる。つまりスピーカー.        
 resonanceAudioScene.output.connect(audioContext.destination);
@@ -52,23 +51,23 @@ audioElement.src = "hototogisu.wav";
 audioElement.loop = true;
 
 
-// Generate a MediaElementSource from the AudioElement.     
+// AudioElementからMediaElementSourceを生成  
 let audioElementSource = audioContext.createMediaElementSource(audioElement);
 
-// Add the MediaElementSource to the scene as an audio input source.      
+// MediaElementSourceをオーディオ入力ソースとしてシーンに追加
 let source = resonanceAudioScene.createSource();
 audioElementSource.connect(source.input);
 source.setMaxDistance(6);
-// Set the source position relative to the room center (source default position).  
 
-
+//オーディオを再生
 button.addEventListener("click", function() {
     audioElement.play();
 });
 
-
+//聴者の位置
 resonanceAudioScene.setListenerPosition(x, y, z);
 
+//部屋の中心を基準にしたソース位置を設定（ソースのデフォルト位置）
 window.addEventListener("keyup", function(event) {
     // Move laugh audio source around when arrow keys pressed         
     if (event.which == 37)
@@ -118,6 +117,7 @@ window.addEventListener("keyup", function(event) {
         resonanceAudioScene.setListenerPosition(x += 0.1, y, z);
     }
 }, this);
+
 
 let r = 200; //半径
 let xpos, ypos; //オブジェクトの座標
